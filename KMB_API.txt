@@ -1,0 +1,1161 @@
+# Real-time Arrival Information
+
+# of
+
+# The Kowloon Motor Bus Company (1933) Limited
+
+# API Specifications
+
+## Version 1.
+
+## 23 Oct 2024
+
+
+Amendment History
+
+Version Number Revision Details Revision Date
+
+1.00 Initial Version 08 Mar 2021
+
+```
+1.01 Revise the API description and sample
+response data.
+```
+11 Mar 2021
+
+```
+1.02 Revise the API description and sample
+response data for the ETA APIs.
+```
+15 Mar 2021
+
+```
+1.03 Revise the API sample response of Route
+and Route-Stop APIs.
+```
+10 May 2021
+
+```
+1.04 Revise the display order of APIs in this
+document.
+```
+03 Aug 2021
+
+1.05 Revise the daily update time of APIs 23 Oct 2024
+
+
+## TABLE OF CONTENTS
+
+- 1. API BASE URL
+- 2. ROUTE LIST API (UPDATED AT 05:00 DAILY)
+- 3. ROUTE API (UPDATED AT 05:00 DAILY)
+- 4. STOP LIST API (UPDATED AT 05:00 DAILY)
+- 5. STOP API (UPDATED AT 05:00 DAILY)
+- 6. ROUTE-STOP LIST API (UPDATED AT 05:00 DAILY)
+- 7. ROUTE-STOP API (UPDATED AT 05:00 DAILY)
+- 8. ETA API
+- 9. STOP ETA API
+- 10. ROUTE ETA API
+- 11. ERROR RESPONSE
+
+
+## 1. API BASE URL
+
+```
+All APIs described in this document share the following base URL:
+Base URL https://data.etabus.gov.hk/
+```
+Please note that URL and parameters in API requests are case-sensitive.
+
+## 2. ROUTE LIST API (UPDATED AT 05:00 DAILY)
+
+Description: This API return all bus routes of KMB.
+
+```
+HTTP Request:
+Endpoint /v1/transport/kmb/route/
+```
+```
+HTTP Method GET
+```
+```
+Sample Request:
+/v1/transport/kmb/route/
+```
+```
+HTTP Response:
+Response Format JSON
+```
+```
+Response Code Response
+```
+
+```
+200 Success, see sample response below
+```
+```
+422 See message in the response body
+```
+```
+500 Internal Server Error
+```
+Sample Response:
+
+```
+{
+"type": "RouteList",
+"version": "1.0",
+"generated_timestamp": "2020-11-29T11:40:48+08:00",
+"data": [
+...,
+{
+"co": "KMB",
+"route": "74B",
+"bound": "O",
+"service_type": "1",
+"orig_en": "KOWLOON BAY",
+"orig_tc": "九龍灣",
+"orig_sc": "九龙湾",
+"dest_en": "TAI PO CENTRAL",
+"dest_tc": "大埔中心",
+"dest_sc": "大埔中心",
+"data_timestamp": "2020-11-29T11:40:00+08:00"
+},
+{
+"co": "KMB",
+"route": "74B",
+"bound": "I",
+"service_type": "1",
+"orig_en": "TAI PO CENTRAL",
+```
+
+"orig_tc": "大埔中心",
+"orig_sc": "大埔中心",
+"dest_en": "KWUN TONG FERRY",
+"dest_tc": "觀塘碼頭",
+"dest_sc": "观塘码头",
+"data_timestamp": "2020-11-29T11:40:00+08:00"
+},
+...
+]
+}
+
+
+## 3. ROUTE API (UPDATED AT 05:00 DAILY)
+
+```
+Description: This API takes a KMB’s operating bus route number, direction and service type,
+and returns the respective route information.
+```
+```
+HTTP Request:
+Endpoint /v1/transport/kmb/route/{route}/{direction}/{service_type}
+```
+```
+HTTP Method GET
+```
+```
+Parameter Parameter Type Description Required
+```
+```
+route Path The route number of the respective bus company that
+specified above. Case sensitive.
+```
+### Y
+
+```
+direction Path The direction of the route number that specified above. Case
+sensitive.
+Valid directions are:
+```
+```
+ outbound
+ inbound
+```
+### Y
+
+```
+service_type Path The service type of the bus route. Y
+```
+```
+Sample Request:
+/v1/transport/kmb/route/74B/outbound/
+```
+
+HTTP Response:
+
+```
+Response Format JSON
+```
+```
+Response Code Response
+```
+```
+200 Success, see sample response below
+422 See message in the response body
+```
+```
+500 Internal Server Error
+```
+Sample Response:
+
+```
+{
+"type": "Route",
+"version": "1.0",
+"generated_timestamp": "2020-11-29T11:40:48+08:00",
+"data": {
+"co": "KMB",
+"route": "74B",
+"bound": "O",
+"service_type": "1",
+"orig_en": "KOWLOON BAY",
+"orig_tc": "九龍灣",
+"orig_sc": "九龙湾",
+"dest_en": "TAI PO CENTRAL",
+"dest_tc": "大埔中心",
+"dest_sc": "大埔中心",
+"data_timestamp": "2020-11-29T11:40:00+08:00"
+}
+}
+```
+
+## 4. STOP LIST API (UPDATED AT 05:00 DAILY)
+
+Description: This API returns all bus stop information at once.
+
+```
+HTTP Request:
+Endpoint /v1/transport/kmb/stop
+```
+```
+HTTP Method GET
+```
+```
+Sample Request:
+/v1/transport/kmb/stop
+```
+```
+HTTP Response:
+Response Format JSON
+```
+```
+Response Code Response
+```
+```
+200 Success, see sample response below
+```
+```
+422 See message in the response body
+```
+```
+500 Internal Server Error
+```
+```
+Sample Response:
+{
+"type": "StopList",
+```
+
+```
+"version": "1.0",
+"generated_timestamp": "2020-11-29T11:40:48+08:00",
+"data": [
+{
+"stop": " A3ADFCDF8487ADB9",
+"name_tc": "中秀茂坪",
+"name_en": "SAU MAU PING (CENTRAL)",
+"name_sc": "中秀茂坪",
+"lat": 22.318856,
+"long": 114.231353,
+"data_timestamp": "2020-11-29T11:40:00+08:00"
+},
+{
+"stop": "6F106FD26B684372",
+"name_en": "SAU ON HOUSE",
+"name_tc": "秀安樓",
+"name_sc": "秀安楼",
+"lat": "22.316738",
+"long": "114.233354",
+"data_timestamp": "2020-11-29T11:40:00+08:00"
+},
+...
+]
+```
+}
+
+
+## 5. STOP API (UPDATED AT 05:00 DAILY)
+
+```
+Description: This API takes a 16-character bus stop ID and returns the respective bus stop
+information.
+(Remark: To find the corresponding bus stop ID, the user can query the "Route-Stop API")
+```
+```
+HTTP Request:
+Endpoint /v1/transport/kmb/stop/{stop_id}
+HTTP Method GET
+```
+```
+Parameter Parameter Type Description Required
+```
+```
+stop_id Path 16-character representation of a bus stop. Case sensitive. Y
+```
+```
+Sample Request:
+/v1/transport/kmb/stop/A3ADFCDF8487ADB
+```
+```
+HTTP Response:
+Response Format JSON
+```
+```
+Response Code Response
+```
+```
+200 Success, see sample response below
+422 See message in the response body
+```
+
+```
+500 Internal Server Error
+```
+Sample Response:
+
+```
+{
+"type": "Stop",
+"version": "1.0",
+"generated_timestamp": "2020-11-29T11:40:48+08:00",
+"data": {
+"stop": " A3ADFCDF8487ADB9",
+"name_tc": "中秀茂坪",
+"name_en": " SAU MAU PING (CENTRAL)",
+"name_sc": "中秀茂坪",
+"lat": 22.318856,
+"long": 114.231353,
+"data_timestamp": "2020-11-29T11:40:00+08:00"
+}
+}
+```
+
+## 6. ROUTE-STOP LIST API (UPDATED AT 05:00 DAILY)
+
+Description: This API takes returns the stop information of all routes.
+
+```
+HTTP Request:
+Endpoint /v1/transport/kmb/route-stop
+```
+```
+HTTP Method GET
+```
+```
+Sample Request:
+/v1/transport/kmb/route-stop
+```
+```
+HTTP Response:
+Response Format JSON
+```
+```
+Response Code Response
+```
+```
+200 Success, see sample response below
+```
+```
+422 See message in the response body
+```
+```
+500 Internal Server Error
+```
+```
+Sample Response:
+{
+"type": "RouteStopList",
+```
+
+"version": "1.0",
+
+"generated_timestamp": "2020-11-29T11:40:48+08:00",
+"data": [
+{
+"co": "KMB",
+"route": "1A",
+"bound": "O",
+"service_type": "1",
+"seq": 1,
+"stop": "A3ADFCDF8487ADB9",
+"data_timestamp": "2020-11-29T11:40:00+08:00"
+},
+...
+{
+"co": "KMB",
+"route": "1A",
+"bound": "O",
+"service_type": "1",
+"seq": 34,
+"stop": "DCFF4041D0C0ACF8",
+"data_timestamp": "2020-11-29T11:40:00+08:00"
+},
+{
+"co": "KMB",
+"route": "2",
+"bound": "O",
+"service_type": "1",
+"seq": 1,
+"stop": "25BD7B50919AA221",
+"data_timestamp": "2020-11-29T11:40:00+08:00"
+
+
+### },
+
+### ...
+
+### ]
+
+### }
+
+
+## 7. ROUTE-STOP API (UPDATED AT 05:00 DAILY)
+
+```
+Description: This API takes a route direction and the KMB’s operating bus route number and
+returns the stop information of the respective route.
+```
+```
+HTTP Request:
+Endpoint /v1/transport/kmb/route-
+stop/{route}/{direction}/{service_type}
+```
+```
+HTTP Method GET
+```
+```
+Parameter Parameter Type Description Required
+```
+```
+route Path The route number of the respective bus company that
+specified above. Case sensitive.
+```
+### Y
+
+```
+direction Path The direction of the route number that specified above. Case
+sensitive.
+Valid directions are:
+```
+```
+ inbound - the direction towards the origin
+ outbound - the direction towards the destination
+```
+### Y
+
+```
+service_type Path The service type of the bus route. Y
+```
+```
+Sample Request:
+/v1/transport/kmb/route-stop/1A/outbound/
+```
+
+HTTP Response:
+
+```
+Response Format JSON
+```
+```
+Response Code Response
+```
+```
+200 Success, see sample response below
+```
+```
+422 See message in the response body
+500 Internal Server Error
+```
+Sample Response:
+
+```
+{
+"type": "RouteStop",
+"version": "1.0",
+"generated_timestamp": "2020-11-29T11:40:48+08:00",
+"data": [
+{
+"co": "KMB",
+"route": "1A",
+"bound": "O",
+"service_type": "1",
+"seq": 1,
+"stop": "A3ADFCDF8487ADB9",
+"data_timestamp": "2020-11-29T11:40:00+08:00"
+},
+...
+{
+"co": "KMB",
+"route": "1A",
+"bound": "O",
+```
+
+```
+"service_type": "1",
+"seq": 34,
+"stop": "DCFF4041D0C0ACF8",
+"data_timestamp": "2020-11-29T11:40:00+08:00"
+}
+]
+```
+}
+
+
+## 8. ETA API
+
+```
+Description: This API takes a bus stop ID, the KMB’s operating bus route number and service
+type; then, it returns the "estimated time of arrival" (ETA) information of the respective route
+at the stop. Please note that the returned ETA information is also included in other service types
+of the same route number if they share the same bus stop. (Remark: up to 3 ETA data may be
+returned for each direction.)
+```
+```
+HTTP Request:
+Endpoint /v1/transport/kmb/eta/{stop_id}/{route}/{service_type}
+```
+```
+HTTP Method GET
+```
+```
+Parameter Parameter Type Description Required
+```
+```
+stop_id Path 16-characters representation of a bus stop. Case sensitive. Y
+```
+```
+route Path The route number of the respective bus company that
+specified above. Case sensitive.
+```
+### Y
+
+```
+service_type Path The Service type of the bus route. Please note that returned
+ETA data is also included in other service types of the same
+route number if they share the same bus stop.
+```
+### Y
+
+```
+Sample Request:
+/v1/transport/kmb/eta/A60AE774B09A5E44/40/
+```
+HTTP Response:
+
+
+```
+Response Format JSON
+```
+```
+Response Code Response
+```
+```
+200 Success, see sample response below
+```
+```
+422 See message in the response body
+```
+```
+500 Internal Server Error
+```
+Sample Response:
+
+```
+{
+"type": "ETA",
+"version": "1.0",
+"generated_timestamp": "2021-03-04T17:22:35+08:00",
+"data": [
+{
+"co": "KMB",
+"route": "40",
+"dir": "O",
+"service_type": 1,
+"seq": 7,
+"stop": "A60AE774B09A5E44",
+"dest_tc": "麗港城",
+"dest_sc": "丽港城",
+"dest_en": "LAGUNA CITY",
+"eta_seq": 1,
+"eta": "2021-03-04T17:25:51+08:00",
+"rmk_tc": "",
+"rmk_sc": "",
+```
+
+"rmk_en": "",
+
+"data_timestamp": "2021-03-04T17:22:15+08:00"
+},
+{
+
+"co": "KMB",
+"route": "40",
+
+"dir": "O",
+"service_type": 1,
+
+"seq": 7,
+"stop": "A60AE774B09A5E44",
+"dest_tc": "麗港城",
+
+"dest_sc": "丽港城",
+"dest_en": "LAGUNA CITY",
+
+"eta_seq": 2,
+"eta": "2021-03-04T17:41:44+08:00",
+"rmk_tc": "原定班次",
+
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+
+"data_timestamp": "2021-03-04T17:22:15+08:00"
+},
+
+{
+"co": "KMB",
+"route": "40",
+
+"dir": "O",
+"service_type": 1,
+
+"seq": 7,
+"stop": "A60AE774B09A5E44",
+"dest_tc": "麗港城",
+
+"dest_sc": "丽港城",
+"dest_en": "LAGUNA CITY",
+
+
+"eta_seq": 3,
+
+"eta": "2021-03-04T17:54:08+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-04T17:22:15+08:00"
+
+}
+]
+}
+
+
+## 9. STOP ETA API
+
+```
+Description: This API takes a bus stop ID; then, it returns the "estimated time of arrival" (ETA)
+information of all routes at that stop.
+Please note that the returned ETA information of a route with a service type is also included in
+other service types of the same route number if they share the same bus stop.
+```
+```
+HTTP Request:
+Endpoint /v1/transport/kmb/stop-eta/{stop_id}
+```
+```
+HTTP Method GET
+```
+```
+Parameter Parameter Type Description Required
+```
+```
+stop_id Path 16-characters representation of a bus stop. Y
+```
+```
+Sample Request:
+/v1/transport/kmb/stop-eta/B8B04CD1E568B8F6
+```
+```
+HTTP Response:
+Response Format JSON
+```
+```
+Response Code Response
+```
+```
+200 Success, see sample response below
+422 See message in the response body
+```
+
+```
+500 Internal Server Error
+```
+Sample Response:
+
+```
+{
+"type": "StopETA",
+"version": "1.0",
+"generated_timestamp": "2021-03-18T12:21:38+08:00",
+"data": [
+{
+"co": "KMB",
+"route": "234X",
+"dir": "I",
+"service_type": 1,
+"seq": 2,
+"dest_tc": "尖沙咀東(麼地道)",
+"dest_sc": "尖沙咀东(么地道)",
+"dest_en": "TSIM SHA TSUI EAST (MODY ROAD)",
+"eta_seq": 1,
+"eta": "2021-03-18T12:31:59+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T12:21:15+08:00"
+},
+{
+"co": "KMB",
+"route": "234X",
+"dir": "I",
+"service_type": 1,
+"seq": 2,
+"dest_tc": "尖沙咀東(麼地道)",
+```
+
+"dest_sc": "尖沙咀东(么地道)",
+"dest_en": "TSIM SHA TSUI EAST (MODY ROAD)",
+"eta_seq": 2,
+"eta": "2021-03-18T12:46:59+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T12:21:15+08:00"
+},
+{
+"co": "KMB",
+"route": "234X",
+"dir": "I",
+"service_type": 1,
+"seq": 2,
+"dest_tc": "尖沙咀東(麼地道)",
+"dest_sc": "尖沙咀东(么地道)",
+"dest_en": "TSIM SHA TSUI EAST (MODY ROAD)",
+"eta_seq": 3,
+"eta": "2021-03-18T13:02:00+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T12:21:15+08:00"
+},
+{
+"co": "KMB",
+"route": "40",
+"dir": "O",
+"service_type": 1,
+"seq": 3,
+"dest_tc": "麗港城",
+"dest_sc": "丽港城",
+
+
+"dest_en": "LAGUNA CITY",
+"eta_seq": 1,
+"eta": "2021-03-18T12:33:19+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T12:21:15+08:00"
+},
+{
+"co": "KMB",
+"route": "40",
+"dir": "O",
+"service_type": 1,
+"seq": 3,
+"dest_tc": "麗港城",
+"dest_sc": "丽港城",
+"dest_en": "LAGUNA CITY",
+"eta_seq": 2,
+"eta": "2021-03-18T12:53:19+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T12:21:15+08:00"
+},
+{
+"co": "KMB",
+"route": "40",
+"dir": "O",
+"service_type": 1,
+"seq": 3,
+"dest_tc": "麗港城",
+"dest_sc": "丽港城",
+"dest_en": "LAGUNA CITY",
+
+
+"eta_seq": 3,
+"eta": "2021-03-18T12:53:19+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T12:21:15+08:00"
+},
+{
+"co": "KMB",
+"route": "40",
+"dir": "O",
+"service_type": 2,
+"seq": 3,
+"dest_tc": "麗港城",
+"dest_sc": "丽港城",
+"dest_en": "LAGUNA CITY",
+"eta_seq": 1,
+"eta": "2021-03-18T12:33:19+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T12:21:15+08:00"
+},
+{
+"co": "KMB",
+"route": "40",
+"dir": "O",
+"service_type": 2,
+"seq": 3,
+"dest_tc": "麗港城",
+"dest_sc": "丽港城",
+"dest_en": "LAGUNA CITY",
+"eta_seq": 2,
+
+
+"eta": "2021-03-18T12:53:19+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T12:21:15+08:00"
+},
+{
+"co": "KMB",
+"route": "40",
+"dir": "O",
+"service_type": 2,
+"seq": 3,
+"dest_tc": "麗港城",
+"dest_sc": "丽港城",
+"dest_en": "LAGUNA CITY",
+"eta_seq": 3,
+"eta": "2021-03-18T12:53:19+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T12:21:15+08:00"
+},
+{
+"co": "KMB",
+"route": "N48",
+"dir": "I",
+"service_type": 1,
+"seq": 2,
+"dest_tc": "愉翠苑",
+"dest_sc": "愉翠苑",
+"dest_en": "YU CHUI COURT",
+"eta_seq": 1,
+"eta": null,
+
+
+"rmk_tc": "服務只限於星期日及公眾假期",
+"rmk_sc": "服务只限于星期日及公众假期",
+"rmk_en": "This route only operates on Sundays and Public Holidays",
+"data_timestamp": "2021-03-18T12:21:15+08:00"
+},
+...
+]
+}
+
+
+## 10. ROUTE ETA API
+
+```
+Description: This API takes the KMB’s operating bus route number(s) and service type(s);
+then, it returns the "estimated time of arrival" (ETA) information of all stops on the respective
+route. The data format is the same as ETA API. Please note that the returned ETA information
+is also included in other service types of the same route number if they share the same bus stop
+```
+```
+HTTP Request:
+Endpoint /v1/transport/kmb/route-eta/{route}/{service_type}
+```
+```
+HTTP Method GET
+```
+```
+Parameter Parameter Type Description Required
+```
+```
+route Path The route number of the respective bus company that
+specified above. Case sensitive.
+```
+### Y
+
+```
+service_type Path The service type of the bus route. Please note that the returned
+ETA information is also included in other service types of the
+same route number if they share the same bus stop.
+```
+### Y
+
+```
+Sample Request:
+/v1/transport/kmb/route-eta/3M/1
+```
+```
+HTTP Response:
+Response Format JSON
+```
+
+```
+Response Code Response
+200 Success, see sample response below
+```
+```
+422 See message in the response body
+```
+```
+500 Internal Server Error
+```
+Sample Response:
+
+```
+{
+"type": "RouteETA",
+"version": "1.0",
+"generated_timestamp": "2021-03-18T13:39:50+08:00",
+"data": [
+{
+"co": "KMB",
+"route": "3M",
+"dir": "O",
+"service_type": 1,
+"seq": 1,
+"dest_tc": "彩雲",
+"dest_sc": "彩云",
+"dest_en": "CHOI WAN",
+"eta_seq": 1,
+"eta": "2021-03-18T13:50:00+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T13:39:46+08:00"
+},
+{
+"co": "KMB",
+"route": "3M",
+```
+
+"dir": "O",
+"service_type": 1,
+"seq": 1,
+"dest_tc": "彩雲",
+"dest_sc": "彩云",
+"dest_en": "CHOI WAN",
+"eta_seq": 2,
+"eta": "2021-03-18T14:10:00+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T13:39:46+08:00"
+},
+{
+"co": "KMB",
+"route": "3M",
+"dir": "O",
+"service_type": 1,
+"seq": 1,
+"dest_tc": "彩雲",
+"dest_sc": "彩云",
+"dest_en": "CHOI WAN",
+"eta_seq": 3,
+"eta": "2021-03-18T14:30:00+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T13:39:46+08:00"
+},
+{
+"co": "KMB",
+"route": "3M",
+"dir": "O",
+
+
+"service_type": 1,
+"seq": 2,
+"dest_tc": "彩雲",
+"dest_sc": "彩云",
+"dest_en": "CHOI WAN",
+"eta_seq": 1,
+"eta": "2021-03-18T13:51:29+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T13:39:46+08:00"
+},
+{
+"co": "KMB",
+"route": "3M",
+"dir": "O",
+"service_type": 1,
+"seq": 2,
+"dest_tc": "彩雲",
+"dest_sc": "彩云",
+"dest_en": "CHOI WAN",
+"eta_seq": 2,
+"eta": "2021-03-18T14:11:28+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T13:39:46+08:00"
+},
+{
+"co": "KMB",
+"route": "3M",
+"dir": "O",
+"service_type": 1,
+
+
+```
+"seq": 2,
+"dest_tc": "彩雲",
+"dest_sc": "彩云",
+"dest_en": "CHOI WAN",
+"eta_seq": 3,
+"eta": "2021-03-18T14:31:28+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T13:39:46+08:00"
+},
+...
+}
+```
+Sample Request:
+
+```
+/v1/transport/kmb/route-eta/3M/2
+```
+Sample Response:
+
+```
+{
+"type": "RouteETA",
+"version": "1.0",
+"generated_timestamp": "2021-03-18T13:39:53+08:00",
+"data": [
+{
+"co": "KMB",
+"route": "3M",
+"dir": "I",
+"service_type": 2,
+"seq": 1,
+```
+
+"dest_tc": "慈雲山(南)",
+"dest_sc": "慈云山(南)",
+"dest_en": "TSZ WAN SHAN (SOUTH)",
+"eta_seq": 1,
+"eta": "2021-03-18T13:40:00+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T13:39:46+08:00"
+},
+{
+"co": "KMB",
+"route": "3M",
+"dir": "I",
+"service_type": 2,
+"seq": 1,
+"dest_tc": "慈雲山(南)",
+"dest_sc": "慈云山(南)",
+"dest_en": "TSZ WAN SHAN (SOUTH)",
+"eta_seq": 2,
+"eta": "2021-03-18T14:00:00+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T13:39:46+08:00"
+},
+{
+"co": "KMB",
+"route": "3M",
+"dir": "I",
+"service_type": 2,
+"seq": 1,
+"dest_tc": "慈雲山(南)",
+
+
+"dest_sc": "慈云山(南)",
+"dest_en": "TSZ WAN SHAN (SOUTH)",
+"eta_seq": 3,
+"eta": "2021-03-18T14:20:00+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T13:39:46+08:00"
+},
+{
+"co": "KMB",
+"route": "3M",
+"dir": "I",
+"service_type": 2,
+"seq": 2,
+"dest_tc": "慈雲山(南)",
+"dest_sc": "慈云山(南)",
+"dest_en": "TSZ WAN SHAN (SOUTH)",
+"eta_seq": 1,
+"eta": "2021-03-18T13:41:26+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T13:39:46+08:00"
+},
+{
+"co": "KMB",
+"route": "3M",
+"dir": "I",
+"service_type": 2,
+"seq": 2,
+"dest_tc": "慈雲山(南)",
+"dest_sc": "慈云山(南)",
+
+
+"dest_en": "TSZ WAN SHAN (SOUTH)",
+"eta_seq": 2,
+"eta": "2021-03-18T14:01:29+08:00",
+"rmk_tc": "原定班次",
+"rmk_sc": "原定班次",
+"rmk_en": "Scheduled Bus",
+"data_timestamp": "2021-03-18T13:39:46+08:00"
+},
+...
+}
+
+
+## 11. ERROR RESPONSE
+
+```
+In case of an API execution error, a corresponding HTTP response code will be returned along
+with the same response code and an error message in the JSON body.
+```
+```
+HTTP Response:
+Response Format JSON
+```
+```
+Sample Response:
+{
+"code": "422",
+"message": " Invalid/Missing parameter(s)"
+}
+```
+
