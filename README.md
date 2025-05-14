@@ -5,6 +5,8 @@
 本專案是一個基於 [FastMCP](https://github.com/jlowin/fastmcp) 的九巴（KMB）API 代理伺服器，提供多種巴士路線、站點、即時到站、票價等查詢工具，並可輕鬆擴充。適合自動化、n8n、AI 應用等場景。
 
 This project is a FastMCP-based proxy server for Kowloon Motor Bus (KMB) public API, providing tools for route, stop, ETA, fare and more. Easy to extend and suitable for automation, n8n, and AI scenarios.
+![image](https://github.com/user-attachments/assets/581988af-230e-4de2-bedb-2d38f801b3db)
+![image](https://github.com/user-attachments/assets/92c4e074-025c-4b7a-9209-faf31195759a)
 
 ---
 
