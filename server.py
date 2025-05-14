@@ -2,7 +2,7 @@ import logging
 import requests
 from fastmcp import FastMCP
 import datetime
-
+ 
 # 設定 logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
